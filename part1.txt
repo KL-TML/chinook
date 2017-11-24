@@ -1,0 +1,52 @@
+1. Find the albums recorded by the artist Queen?
+Album.where(artist_id: Artist.find_by(name:'Queen').id)
+
+2. Count how many tracks belong to the media type "Protected MPEG-4 video file".
+MediaType.where(name: 'Protected MPEG-4 video file').count
+
+
+3. Find the genre with the name "Hip Hop/Rap".
+Genre.find_by(name: 'Hip Hop/Rap')
+
+4. Count how many tracks belong to the "Hip Hop/Rap" genre
+Genre.where(name: 'Hip Hop/Rap').ids
+
+5. Find the total amount of time required to listen to all the tracks in the database.
+Track.sum("milliseconds") => 1378575827, approx 16 days
+
+6. Find the highest price of any track that has the media type "MPEG audio file".
+
+MediaType.where(name: 'MPEG audio file')
+Track.where(media_type_id: '1')  
+Track.where(media_type_id: MediaType.where(name: 'MPEG audio file'))
+Track.where(media_type_id: MediaType.where(name: 'MPEG audio file')).maximum(:unit_price)
+Track.where(media_type_id: (MediaType.where(name: "MPEG audio file")).ids).maximum(:unit_price)
+
+Find the name of the most expensive track that has the media type "MPEG audio file".
+
+MediaType.where(name: “MPEG audio file”) **** finding the name: MPEG audio file
+Track.where(media_type_id: 
+
+Track.maximum(“unit_price”) ***** finding the max unit price
+
+
+Find the 2 oldest artists.
+- Rank artists by created_at
+- take the last 2 artists
+- Result will be the 2 instances
+
+Artist.order(:created_at)
+Artist.order(:created_at).last(2)
+
+Find the least expensive track that has the genre "Electronica/Dance".
+Genre.where(name: “Electronica/Dance”)
+Track.minimum(“unit_price”)
+Track.where(genre_id: Genre.where(name: “Electronica/Dance”)).minimum(“unit_price)
+
+
+Find all "MPEG audio file" tracks in the genre "Electronica/Dance".
+
+MediaType.where(name: ‘MPEG audio file”)
+Track.where(media_type_id:MediaType.where(name: ‘MPEG audio file’) )
+
+Genre.where( Track.where( MediaType.where(name: ‘MPEG audio file”) )
